@@ -1,19 +1,12 @@
 backend
 
 1 populate sql
-
-2 finish api
+2 one more sql statement for groupie
 
 ------------------------------------------------
 
 frontend
 
-1 pull new api
-
-2 update database service to include all api calls
-
-3 update query function in dashboard component
-
-4 popup
+1 get by actor, by year
 
 
