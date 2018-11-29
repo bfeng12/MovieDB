@@ -12,7 +12,7 @@ db = mysql.connector.connect(host="localhost",    # your host, usually localhost
 dbcursor = db.cursor()
 
 @app.route('/')
-def test():
+def home():
     # Gets all the tables that are available in the MovieDB
     dbcursor.execute("SHOW TABLES")
     tables = dbcursor.fetchall()
@@ -34,13 +34,72 @@ def movie_to_json(fetchall):
         resultList.append(tempDict)
     return resultList
 
+@app.route('/moviedb/movie', methods=['POST'])
+def insert_movie():
+    reqData = request.get_json()
+    query = "INSERT INTO MOVIE(movieName, rating, parentalRating, releaseDate) " \
+            "VALUES (%s,%s,%s,%s)"
+    movieName = reqData['movieName']
+    rating = reqData['rating']
+    parentalRating = reqData['parentalRating']
+    releaseDate = reqData['releaseDate']
+    vals = (movieName, rating, parentalRating, releaseDate)
+
+    try:
+        dbcursor.execute(query, vals)
+        db.commit()
+    except mysql.connector.errors.DatabaseError:
+        return jsonify({'error': "incorrect values"})
+    except KeyError:
+        return jsonify({'error': "insufficient number of parameters"})
+
+    return jsonify({'result': True})
+
+@app.route('/moviedb/movie/update/<int:id>', methods=['PUT'])
+def update_movie(id):
+    query = "UPDATE Movie " \
+            "SET movieName = (%s), rating = (%s), parentalRating = (%s), releaseDate = (%s) " \
+            "WHERE ID = (%s)"
+    reqData = request.get_json()
+    movieName = reqData['movieName']
+    rating = reqData['rating']
+    parentalRating = reqData['parentalRating']
+    releaseDate = reqData['releaseDate']
+    vals = (movieName, rating,parentalRating, releaseDate, id)
+    try:
+        dbcursor.execute(query, vals)
+        db.commit()
+    except mysql.connector.errors.DatabaseError:
+        return jsonify({'error': "incorrect values"})
+    except KeyError:
+        return jsonify({'error': "insufficient number of parameters"})
+    return jsonify({'result': True})
+
+
+@app.route('/moviedb/movie/parentalrating/delete/<string:rating>', methods=['DELETE'])
+def delete_movies_parental_rating(rating):
+    # Deletes the movie by parental rating
+    rating = rating.upper()
+    if rating != 'PG' and rating != 'PG-13' and rating != 'NR' and rating != 'R' and rating != 'G':
+        return jsonify({'error': "incorrect rating"})
+    query = "DELETE FROM MOVIE WHERE parentalRating = (%s)"
+    dbcursor.execute(query, [rating])
+    db.commit()
+    return jsonify({'result': True})
+
+@app.route('/moviedb/movie/parentalrating/<string:rating>', methods=['GET'])
+def get_movies_parental_rating(rating):
+    query = "SELECT * FROM Movie WHERE parentalRating = (%s)"
+    dbcursor.execute(query,[rating])
+    return jsonify(movie_to_json(dbcursor.fetchall()))
+
 
 @app.route('/moviedb/movie/rating/<int:rating>', methods=['GET'])
 def get_movies_rating(rating):
     # Gets movies where rating is greater than X
     query = "SELECT * FROM Movie WHERE rating >= (%s)"
-    dbcursor.execute(query, [rating]);
-    return jsonify(movie_to_json(dbcursor.fetchall()));
+    dbcursor.execute(query, [rating])
+    return jsonify(movie_to_json(dbcursor.fetchall()))
 
 
 @app.route('/moviedb/movie/actor/<string:actor>', methods=['GET'])
