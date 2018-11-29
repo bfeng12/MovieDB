@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, make_response, request, abort
 import mysql.connector
-#from flask_cors import CORS
+from flask_cors import CORS
 
 app=Flask(__name__)
-#CORS(app)
+CORS(app)
 
 db = mysql.connector.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="awesome",  # your password
+                     passwd="together5",  # your password
                      db="movieDB")        # name of the data base
 dbcursor = db.cursor()
 
@@ -26,7 +26,7 @@ def movie_to_json(fetchall):
     for x in fetchall:
         tempDict = {
             'id': x[0],
-            'movieName': x[1],
+            'name': x[1],
             'rating': x[2],
             'parentalRating': x[3],
             'releaseDate': x[4]
