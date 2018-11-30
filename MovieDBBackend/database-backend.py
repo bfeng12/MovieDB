@@ -1,14 +1,24 @@
+#INSTRUCTIONS:
+"""
+To run this make sure you have downloaded flask. If you haven' do 'pip install flask'.
+Also make sure you have mysql connector by doing 'pip install mysql.connector'.
+
+Runs on "http://127.0.0.1:5000/"
+"""
 from flask import Flask, jsonify, make_response, request, abort
 import mysql.connector
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app=Flask(__name__)
-CORS(app)
-
-db = mysql.connector.connect(host="localhost",    # your host, usually localhost
+#CORS(app)
+try:
+    db = mysql.connector.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="together5",  # your password
+                     passwd="awesomse",  # your password
                      db="movieDB")        # name of the data base
+except mysql.connector.errors.ProgrammingError:
+    print("Error: Incorrect values for login.")
+    exit(0)
 dbcursor = db.cursor()
 
 @app.route('/')
@@ -36,6 +46,7 @@ def movie_to_json(fetchall):
 
 @app.route('/moviedb/movie', methods=['POST'])
 def insert_movie():
+    # Insert a method using POST Method. Must be given a json file with constraints.
     reqData = request.get_json()
     query = "INSERT INTO MOVIE(movieName, rating, parentalRating, releaseDate) " \
             "VALUES (%s,%s,%s,%s)"
@@ -150,6 +161,8 @@ def not_found(error):
 #######################
 ##ALL THE PEOPLE ONES##
 #######################
+
+"""
 @app.route('/moviedb/person/<int:person_id>', methods=['GET'])
 def get_person(person_id):
     # Returns a json file of a person given the ID
@@ -186,7 +199,7 @@ def get_persons():
         }
         resultList.append(empDict)
     return jsonify(resultList) 
-
+"""
 
 if __name__ == '__main__':
     app.run(debug=True)
