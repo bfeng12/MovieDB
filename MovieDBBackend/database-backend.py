@@ -130,18 +130,7 @@ def get_movies_actor(actor):
 def get_movies_year(year):
     # Returns a json file of movies that were released in xxxx year
     dbcursor.execute("SELECT * FROM MOVIE WHERE Year(releaseDate) = (%s)", [year])
-    resultList = []
-    for x in dbcursor.fetchall():
-        tempDict = {
-            'id': x[0],
-            'movieName': x[1],
-            'rating': x[2],
-            'parentalRating': x[3],
-            'releaseDate': x[4]
-        }
-        resultList.append(tempDict)
-    return jsonify(resultList) 
-
+    return jsonify(movie_to_json(dbcursor.fetchall()))
 
 @app.route('/moviedb/movie', methods=['GET'])
 def get_movies():
