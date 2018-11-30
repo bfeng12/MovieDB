@@ -79,12 +79,10 @@ CREATE TABLE Casts(
 	directorID int NOT NULL,
     producerID int NOT NULL,
     movieID int NOT NULL,
-    actorID int NOT NULL,
     
     FOREIGN KEY (directorID) REFERENCES Director(ID),
     FOREIGN KEY (producerID) REFERENCES Producer(ID),
     FOREIGN KEY (movieID) REFERENCES Movie(ID),
-    FOREIGN KEY (actorID) REFERENCES Actor(ID),
     PRIMARY KEY(movieID)
 );
 CREATE TABLE CastsActor(
@@ -92,5 +90,5 @@ CREATE TABLE CastsActor(
     actorID int NOT NULL,
     FOREIGN KEY (movieID) REFERENCES Movie(ID),
     FOREIGN KEY (actorID) REFERENCES Actor(ID),
-    PRIMARY KEY (movieID)
+    PRIMARY KEY (movieID, actorID)
 );
