@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, make_response, request, abort
 import mysql.connector
-#from flask_cors import CORS
+from flask_cors import CORS
 
 app=Flask(__name__)
-#CORS(app)
+CORS(app)
 
 db = mysql.connector.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="awesome",  # your password
+                     passwd="together5",  # your password
                      db="movieDB")        # name of the data base
 dbcursor = db.cursor()
 
@@ -26,7 +26,7 @@ def movie_to_json(fetchall):
     for x in fetchall:
         tempDict = {
             'id': x[0],
-            'movieName': x[1],
+            'name': x[1],
             'rating': x[2],
             'parentalRating': x[3],
             'releaseDate': x[4]
@@ -109,15 +109,14 @@ def get_movies_actor(actor):
     "SELECT DISTINCT firstName, Movie.ID, Movie.movieName, Movie.rating, Movie.parentalRating, Movie.releaseDate "\
     "FROM Movie, CastsActor, Actor, Person "\
     "WHERE Person.firstName = (%s) AND Movie.ID = CastsActor.movieID " \
-    "AND Actor.ID = actorID"
+    "AND Actor.ID = CastsActor.actorID AND Person.ID = Actor.ID"
 
     dbcursor.execute(query,[actor])
     resultList = []
     for x in dbcursor.fetchall():
         tempDict = {
-            'actorName': x[0],
             'id': x[1],
-            'movieName': x[2],
+            'name': x[2],
             'rating': x[3],
             'parentalRating': x[4],
             'releaseDate': x[5]
@@ -130,24 +129,19 @@ def get_movies_actor(actor):
 def get_movies_year(year):
     # Returns a json file of movies that were released in xxxx year
     dbcursor.execute("SELECT * FROM MOVIE WHERE Year(releaseDate) = (%s)", [year])
-    resultList = []
-    for x in dbcursor.fetchall():
-        tempDict = {
-            'id': x[0],
-            'movieName': x[1],
-            'rating': x[2],
-            'parentalRating': x[3],
-            'releaseDate': x[4]
-        }
-        resultList.append(tempDict)
-    return jsonify(resultList) 
-
+    return jsonify(movie_to_json(dbcursor.fetchall()))
 
 @app.route('/moviedb/movie', methods=['GET'])
 def get_movies():
     # Returns a json file of all movies in the MovieDB
     dbcursor.execute("SELECT * FROM Movie")
     return jsonify(movie_to_json(dbcursor.fetchall()))
+
+@app.route('/moviedb/movie/parentalrating/maximum', methods=['GET'])
+def get_most_movies_by_parental_rating():
+    # Returns a json file of all movies in the MovieDB
+    dbcursor.execute("SELECT parentalRating, COUNT(*) From Movie GROUP BY parentalRating ORDER BY COUNT(*) DESC LIMIT 1")
+    return jsonify(dbcursor.fetchone())
 
 @app.errorhandler(404)
 def not_found(error):
@@ -177,7 +171,6 @@ def create_person():
     db.commit()
     dbcursor.execute("SELECT * FROM PERSON")
     return jsonify(dbcursor.fetchall()), 201
-
 
 @app.route('/moviedb/person', methods=['GET'])
 def get_persons():

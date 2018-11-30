@@ -1,0 +1,6 @@
+1) open mysql bench
+2) Turn on server
+3) run entities.sql script in mysql
+4) run populate_table.sql script in mysql
+5) run database-backend.py with python
+  a. make sure you have flask imported in your project before running (use 'pip install flask' on cmd line)
