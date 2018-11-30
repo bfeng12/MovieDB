@@ -83,12 +83,14 @@ CREATE TABLE Distributes(
 );
 
 CREATE TABLE Casts(
-	directorID int NOT NULL,
-    producerID int NOT NULL,
+	directorID int,
+    producerID int,
     movieID int NOT NULL,
     
-    FOREIGN KEY (directorID) REFERENCES Director(ID),
-    FOREIGN KEY (producerID) REFERENCES Producer(ID),
+    FOREIGN KEY (directorID) REFERENCES Director(ID)
+		ON DELETE SET NULL,
+    FOREIGN KEY (producerID) REFERENCES Producer(ID)
+		ON DELETE SET NULL,
     FOREIGN KEY (movieID) REFERENCES Movie(ID)
 		ON DELETE CASCADE,
     PRIMARY KEY(movieID)
@@ -98,6 +100,7 @@ CREATE TABLE CastsActor(
     actorID int NOT NULL,
     FOREIGN KEY (movieID) REFERENCES Movie(ID)
 		ON DELETE CASCADE,
-    FOREIGN KEY (actorID) REFERENCES Actor(ID),
+    FOREIGN KEY (actorID) REFERENCES Actor(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY (movieID, actorID)
 );
