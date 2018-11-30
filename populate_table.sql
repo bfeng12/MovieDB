@@ -1,6 +1,17 @@
-#SQL Script for Populating our table
+#SQL Script for Populating our table with random movies
 #By Benny Feng
 #Clear your database/tables before lightning bolting this
+
+#DISTRIBUTORS
+#1
+INSERT INTO Distributor(yearFounded, netWorth, distributorName, headQuarters)
+VALUES (1920, 90000000, "Time Warner", "Los Angeles, California");
+#2
+INSERT INTO Distributor(yearFounded, netWorth, distributorName, headQuarters)
+VALUES (1948, 120000000, "Sony", "Tokyo, Japan");
+#3
+INSERT INTO Distributor(yearFounded, netWorth, distributorName, headQuarters)
+VALUES (1990, 92300500, "Universal Studios", "Orlando, Florida");
 
 #CREATING PEOPLE
 #1
@@ -75,6 +86,7 @@ VALUES ("Whedon", "Josh", 39);
 INSERT INTO Director VALUES ((SELECT LAST_INSERT_ID()));
 INSERT INTO Producer VALUES ((SELECT LAST_INSERT_ID()));
 
+#MOVIES 
 #Creed movie
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("Creed", 8.2, "PG-13", "2015-11-25");
@@ -83,6 +95,9 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(1,1,1);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (1,2), (1,3);
+#Distribute
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("USA", 2, 1);
 
 #Creed2 Movie
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
@@ -91,6 +106,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(1,1,2);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (2,2), (2,3);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("USA", 1, 2);
 
 #Godfather I
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
@@ -99,6 +116,9 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(10,10,3);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (3,8), (3,9);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("North America", 3, 3);
+
 #Godfather II
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("Godfather II", 9.85, "R", "1976-06-10");
@@ -106,6 +126,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(10,10,4);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (4,8), (4,9);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("North America", 3, 4);
 #Godfather III
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("Godfather III", 9.75, "R", "1979-06-10");
@@ -113,6 +135,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(10,10,5);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (5,8), (5,9);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("North America", 3, 5);
 
 #Deadpool
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
@@ -121,6 +145,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(13,13,6);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (6,5), (6,6),(6,12);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("Worldwide", 2, 6);
 #Deadpool 2
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("Deadpool II", 6.66, "R", "2018-08-11");
@@ -128,6 +154,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(13,13,7);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (7,5), (7,6), (7,12);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("Worldwide", 2, 7);
 #Avengers
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("The Avengers", 8.16, "PG-13", "2012-07-05");
@@ -135,6 +163,8 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(16,16,8);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (8,14), (8,15), (8,12), (8,11);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("Worldwide", 1, 8);
 #Avengers Infinity War
 INSERT INTO Movie (movieName, rating, parentalRating, releaseDate) 
 VALUES ("Avengers: Infinity war", 8.92, "PG-13", "2018-06-05");
@@ -142,28 +172,30 @@ INSERT INTO Casts (directorID, producerID, movieID)
 VALUES(16,16,9);
 INSERT INTO CastsActor(movieID, actorID)
 VALUES (9,14), (9,15), (9,12), (9,11);
+INSERT INTO Distributes(region, distributorID, movieID)
+VALUES ("Worldwide", 1, 9);
 
 #AWARDS
 #Sylvester Stallone
 INSERT INTO Award (awardName, awardType)
 VALUES ("Best Leading Actor", "Oscar");
 INSERT INTO Owns(dateAwarded, awardID, personID)
-VALUES ("2011-08-12", (SELECT LAST_INSERTED_ID()), 3);
+VALUES ("2011-08-12", (SELECT LAST_INSERT_ID()), 3);
 #Stan Lee
 INSERT INTO Award (awardName, awardType)
 VALUES ("Best Supporting Actor", "Oscar");
 INSERT INTO Owns(dateAwarded, awardID, personID)
-VALUES ("2013-08-12", (SELECT LAST_INSERTED_ID()), 12);
+VALUES ("2013-08-12", (SELECT LAST_INSERT_ID()), 12);
 #Al Pacino
 INSERT INTO Award (awardName, awardType)
-VALUES ("Best Actor of All Time", "Golden Globe");
+VALUES ("Best Actor of All Time", 'Nobel');
 INSERT INTO Owns(dateAwarded, awardID, personID)
-VALUES ("1999-02-13", (SELECT LAST_INSERTED_ID()), 8);
+VALUES ("1999-02-13", (SELECT LAST_INSERT_ID()), 8);
 
 INSERT INTO Award (awardName, awardType)
 VALUES ("Best Leading Actor", "Oscar");
 INSERT INTO Owns(dateAwarded, awardID, personID)
-VALUES ("1977-05-19", (SELECT LAST_INSERTED_ID()), 8);
+VALUES ("1977-05-19", (SELECT LAST_INSERT_ID()), 8);
 
 
 

@@ -11,17 +11,20 @@ CREATE TABLE Person(
 
 CREATE TABLE Actor(
 	ID int NOT NULL,
-    FOREIGN KEY (ID) REFERENCES Person(ID),
+    FOREIGN KEY (ID) REFERENCES Person(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(ID)
 );
 CREATE TABLE Producer(
 	ID int NOT NULL,
-    FOREIGN KEY (ID) REFERENCES Person(ID),
+    FOREIGN KEY (ID) REFERENCES Person(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(ID)
 );
 CREATE TABLE Director(
 	ID int NOT NULL,
-    FOREIGN KEY (ID) REFERENCES Person(ID),
+    FOREIGN KEY (ID) REFERENCES Person(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(ID)
 );
 CREATE TABLE Award(
@@ -60,8 +63,10 @@ CREATE TABLE Owns(
     awardID int,
     personID int,
     
-    FOREIGN KEY(awardID) REFERENCES Award(ID),
-    FOREIGN KEY(personID) REFERENCES Person(ID),
+    FOREIGN KEY(awardID) REFERENCES Award(ID)
+		ON DELETE CASCADE,
+    FOREIGN KEY(personID) REFERENCES Person(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(awardID, personID)
 );
 
@@ -70,8 +75,10 @@ CREATE TABLE Distributes(
     distributorID int,
     movieID int,
     
-    FOREIGN KEY (movieID) REFERENCES Movie(ID),
-    FOREIGN KEY (distributorID) REFERENCES Distributor(ID),
+    FOREIGN KEY (movieID) REFERENCES Movie(ID)
+		ON DELETE CASCADE,
+    FOREIGN KEY (distributorID) REFERENCES Distributor(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(distributorID, movieID)
 );
 
@@ -82,13 +89,15 @@ CREATE TABLE Casts(
     
     FOREIGN KEY (directorID) REFERENCES Director(ID),
     FOREIGN KEY (producerID) REFERENCES Producer(ID),
-    FOREIGN KEY (movieID) REFERENCES Movie(ID),
+    FOREIGN KEY (movieID) REFERENCES Movie(ID)
+		ON DELETE CASCADE,
     PRIMARY KEY(movieID)
 );
 CREATE TABLE CastsActor(
 	movieID int NOT NULL,
     actorID int NOT NULL,
-    FOREIGN KEY (movieID) REFERENCES Movie(ID),
+    FOREIGN KEY (movieID) REFERENCES Movie(ID)
+		ON DELETE CASCADE,
     FOREIGN KEY (actorID) REFERENCES Actor(ID),
     PRIMARY KEY (movieID, actorID)
 );
