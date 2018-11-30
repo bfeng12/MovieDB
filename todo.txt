@@ -1,12 +1,16 @@
 backend
 
 1 populate sql
-2 one more sql statement for groupie
+2 one more sql statement for groupby
 
 ------------------------------------------------
 
 frontend
 
-1 get by actor, by year
+1 get by actor
 
+------------------------------------------------
 
+other
+
+1 documentation, ppt
