@@ -9,7 +9,8 @@ MySQL
 Python
 5) Install Python 3.7 
 6) pip install flask, flask cors, mysql-connector-python on cmd line/terminal
-5) python database-backend.py with Python
+6) Update database-backend.py with correct username and password in line 16-17
+7) python database-backend.py with Python
   a. Make sure flask, flask cors, mysql.connector are successfully imported
 
 -----------------------------------------------------------------------------------------------------------
@@ -21,4 +22,5 @@ Frontend Instructions
 3) cd MovieDBFrontend
 4) http-server database-frontend/
   a. Make sure database-backend.py is running on http://127.0.0.1:5000/
-5) Go to localhost:8080/home
+5) Go to localhost:8080/
+6) Select button on top-left, and select "Movie" ONLY
