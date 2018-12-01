@@ -1,11 +1,16 @@
 Backend Instructions
 
+MySQL
 1) Open MySQL Workbench
 2) Turn server on
 3) Run entities.sql in MySQL
 4) Run populate_table.sql in MySQL
-5) Run database-backend.py with Python
-  a. Make sure flask and flask cors are imported (use 'pip install flask, flask cors' on cmd line)
+
+Python
+5) Install Python 3.7 
+6) pip install flask, flask cors, mysql-connector-python on cmd line/terminal
+5) python database-backend.py with Python
+  a. Make sure flask, flask cors, mysql.connector are successfully imported
 
 -----------------------------------------------------------------------------------------------------------
 
@@ -16,3 +21,4 @@ Frontend Instructions
 3) cd MovieDBFrontend
 4) http-server database-frontend/
   a. Make sure database-backend.py is running on http://127.0.0.1:5000/
+5) Go to localhost:8080/home
