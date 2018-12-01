@@ -1,16 +1,14 @@
-other
-1 update sql entity, populate sql table
-2 documentation, ppt
-
 Chen's Assignment >:( 
 
+1 Update resource folder to current version of backend and sql, and include frontend.
+
 Assignment 3:
-  1 put front-end files in Assignment_3_NAME\Resource folder
-  2 fill out 1_phase_report (system transactions)
-  3 fill out 2_system_profile (system configuration for the front-end)
+  1 Put front-end files in Assignment_3_NAME\Resource folder
+  2 Fill out 1_phase_report (system transactions)
+  3 Fill out 2_system_profile (system configuration for the front-end)
   After finish, zip up the Assignment_3_NAME and replace name with group leader name
 
 Course Project:
-  1 include presentation file (google slide)
-  2 fill our project report
+  1 Include presentation file (google slide)
+  2 Fill our project report
   After finish, zip up Project_NAME and send that to him and change name to group leader name
