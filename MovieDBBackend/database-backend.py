@@ -7,14 +7,14 @@ Runs on "http://127.0.0.1:5000/"
 """
 from flask import Flask, jsonify, make_response, request, abort
 import mysql.connector
-#from flask_cors import CORS
+from flask_cors import CORS
 
 app=Flask(__name__)
-#CORS(app)
+CORS(app)
 try:
     db = mysql.connector.connect(host="localhost",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="awesomse",  # your password
+                     passwd="awesome",  # your password
                      db="movieDB")        # name of the data base
 except mysql.connector.errors.ProgrammingError:
     print("Error: Incorrect values for login.")
@@ -26,7 +26,7 @@ def home():
     # Gets all the tables that are available in the MovieDB
     dbcursor.execute("SHOW TABLES")
     tables = dbcursor.fetchall()
-    return jsonify({'tables':tables})
+    return jsonify({'tables': tables})
 # ######################
 # ##ALL THE MOVIE ONES##
 # ######################
@@ -115,9 +115,9 @@ def get_movies_rating(rating):
 
 @app.route('/moviedb/movie/actor/<string:actor>', methods=['GET'])
 def get_movies_actor(actor):
-    # Gets the list of movies and actor has acted in
+    # Gets the list of movies an actor has acted in
     query = \
-    "SELECT DISTINCT firstName, Movie.ID, Movie.movieName, Movie.rating, Movie.parentalRating, Movie.releaseDate "\
+    "SELECT DISTINCT Movie.ID, Movie.movieName, Movie.rating, Movie.parentalRating, Movie.releaseDate "\
     "FROM Movie, CastsActor, Actor, Person "\
     "WHERE Person.firstName = (%s) AND Movie.ID = CastsActor.movieID " \
     "AND Actor.ID = CastsActor.actorID AND Person.ID = Actor.ID"
@@ -126,11 +126,11 @@ def get_movies_actor(actor):
     resultList = []
     for x in dbcursor.fetchall():
         tempDict = {
-            'id': x[1],
-            'name': x[2],
-            'rating': x[3],
-            'parentalRating': x[4],
-            'releaseDate': x[5]
+            'id': x[0],
+            'name': x[1],
+            'rating': x[2],
+            'parentalRating': x[3],
+            'releaseDate': x[4]
         }
         resultList.append(tempDict)
     return jsonify(resultList)
